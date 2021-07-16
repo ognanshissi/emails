@@ -1,0 +1,35 @@
+name: Deploy libraries
+
+on:
+  workflow_dispatch:
+
+env:
+  PROJECTS_BUILD: './src/Milochau.Emails.Sdk.sln'
+  PROJECTS_LIBRARIES: './src/Milochau.Emails.Sdk.sln'
+  VERSION_FILE: './src/Directory.Build.props'
+  NUGET_URL: 'https://nuget.pkg.github.com/amilochau/index.json'
+  DOTNET_VERSION: 3.1.x
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          source-url: ${{ env.NUGET_URL }}
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use GitHub Packages
+        run: dotnet nuget add source --username amilochau --password ${{ secrets.ACTIONS_PAT }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/amilochau/index.json"
+      - name: Deploy libraries
+        uses: amilochau/github-actions/release/nuget@v1
+        with:
+          projectsToBuild: ${{ env.PROJECTS_BUILD }}
+          projectsToPublish: ${{ env.PROJECTS_LIBRARIES }}
+          versionFile: ${{ env.VERSION_FILE }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}

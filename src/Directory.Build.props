@@ -6,16 +6,17 @@
     <Company>Milochau</Company>
     <Authors>Antoine Milochau</Authors>
     <Copyright>Copyright © Milochau 2011-$([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
-    <PackageProjectUrl>$(BUILD_REPOSITORY_URI)</PackageProjectUrl>
-    <RepositoryUrl>$(BUILD_REPOSITORY_URI)</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>$(GITHUB_REPOSITORY)</PackageProjectUrl>
+    <RepositoryUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryBranch>$(BUILD_SOURCEBRANCH)</RepositoryBranch>
-    <RepositoryCommit>$(BUILD_SOURCEVERSION)</RepositoryCommit>
+    <RepositoryBranch>$(GITHUB_REF)</RepositoryBranch>
+    <RepositoryCommit>$(GITHUB_SHA)</RepositoryCommit>
     <PackageReleaseNotes>See CHANGELOG.md to learn more about package changes.</PackageReleaseNotes>
     
-    <Version>4.0.0</Version>
-    <InformationalVersion Condition="('$(BUILD_BUILDID)' != '') And ('$(BUILD_SOURCEVERSION)' != '')">$(Version)+$(BUILD_BUILDID)-$(BUILD_SOURCEVERSION)</InformationalVersion>
-    <InformationalVersion Condition="('$(BUILD_BUILDID)' == '') Or ('$(BUILD_SOURCEVERSION)' == '')">$(Version)+local</InformationalVersion>
+    <Version>4.0.0-beta.1</Version>
+    <InformationalVersion Condition="('$(GITHUB_ACTION)' != '') And ('$(GITHUB_SHA)' != '')">$(Version)+$(GITHUB_ACTION)-$(GITHUB_SHA)</InformationalVersion>
+    <InformationalVersion Condition="('$(GITHUB_ACTION)' == '') Or ('$(GITHUB_SHA)' == '')">$(Version)+local</InformationalVersion>
   </PropertyGroup>
 
   <!-- Ensure InternalsVisibleTo for tests inside business assemblies only -->
