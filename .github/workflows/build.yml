@@ -24,8 +24,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Use GitHub Packages
-        run: dotnet nuget add source --username amilochau --password ${{ secrets.ACTIONS_PAT }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/amilochau/index.json"
       - name: Build and test projects
         uses: amilochau/github-actions/build/netcore@v1
         with:
