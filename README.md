@@ -1,5 +1,8 @@
 # Readme - emails
 
+[![Build](https://github.com/amilochau/emails/actions/workflows/build.yml/badge.svg)](https://github.com/amilochau/emails/actions/workflows/build.yml)
+[![Deploy libraries](https://github.com/amilochau/emails/actions/workflows/deploy-libraries.yml/badge.svg)](https://github.com/amilochau/emails/actions/workflows/deploy-libraries.yml)
+
 ## Introduction
 
 `emails` let client applications send e-mails, thanks to Azure Service Bus and SendGrid.
