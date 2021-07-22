@@ -3,6 +3,8 @@ name: Deploy libraries
 on:
   workflow_dispatch:
 
+concurrency: deploy_libraries
+
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.Sdk.sln'
   PROJECTS_LIBRARIES: './src/Milochau.Emails.Sdk.sln'

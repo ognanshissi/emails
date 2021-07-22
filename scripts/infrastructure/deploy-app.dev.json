@@ -5,11 +5,8 @@
     "organizationPrefix": {
       "value": "mil"
     },
-    "appConfigurationName": {
-      "value": "milochau"
-    },
-    "appConfigurationResourceGroup": {
-      "value": "mil-rg-shd"
+    "applicationName": {
+      "value": "emails"
     },
     "environmentName": {
       "value": "Development"
@@ -17,16 +14,19 @@
     "hostName": {
       "value": "dev"
     },
-    "applicationName": {
-      "value": "emails"
+    "appConfigurationName": {
+      "value": "milochau"
+    },
+    "appConfigurationResourceGroup": {
+      "value": "mil-rg-shd"
     },
     "useApplicationInsights": {
       "value": true
     },
-    "useKeyVault": {
+    "useServiceBus": {
       "value": true
     },
-    "useServiceBus": {
+    "useKeyVault": {
       "value": true
     },
     "useAppConfiguration": {
