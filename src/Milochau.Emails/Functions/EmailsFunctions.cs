@@ -27,7 +27,7 @@ namespace Milochau.Emails.Functions
         /// The queue item must be an object of type <see cref="Email"/>
         /// </remarks>
         [FunctionName("SendEmailFromServiceBus")]
-        public async Task SendEmailFromServiceBusAsync([ServiceBusTrigger("%ServiceBusQueueName%", Connection = "ServiceBusConnectionString")] Email email, ILogger logger, CancellationToken cancellationToken)
+        public async Task SendEmailFromServiceBusAsync([ServiceBusTrigger("emails", Connection = "ServiceBusConnectionString")] Email email, ILogger logger, CancellationToken cancellationToken)
         {
             logger.LogDebug("Start running SendEmailFromServiceBus Function...");
 

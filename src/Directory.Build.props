@@ -14,7 +14,7 @@
     <RepositoryCommit>$(GITHUB_SHA)</RepositoryCommit>
     <PackageReleaseNotes>See CHANGELOG.md to learn more about package changes.</PackageReleaseNotes>
     
-    <Version>4.0.0</Version>
+    <Version>5.0.0</Version>
     <InformationalVersion Condition="('$(GITHUB_ACTION)' != '') And ('$(GITHUB_SHA)' != '')">$(Version)+$(GITHUB_ACTION)-$(GITHUB_SHA)</InformationalVersion>
     <InformationalVersion Condition="('$(GITHUB_ACTION)' == '') Or ('$(GITHUB_SHA)' == '')">$(Version)+local</InformationalVersion>
   </PropertyGroup>

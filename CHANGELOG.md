@@ -6,8 +6,5 @@
 
 ## Breaking changes
 
-- Rename SDK to `Milochau.Emails.Sdk`
-
-## Minor changes
-
-- NuGet packages are now exported to GitHub Packages and nuget.org instead of Azure Artifacts
+- SDK now uses Managed Identity to connect to Azure Service Bus. Clients should provide a `ServiceBusNamespace`, instead of `ServiceBusConnectionString`
+- Emails service now uses a fixed Service Bus queue name: `emails` 

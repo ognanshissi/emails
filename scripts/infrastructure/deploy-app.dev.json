@@ -26,6 +26,11 @@
     "useServiceBus": {
       "value": true
     },
+    "serviceBusQueues": {
+      "value": [
+        "emails"
+      ]
+    },
     "useKeyVault": {
       "value": true
     },

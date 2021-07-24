@@ -1,19 +1,19 @@
 ﻿using Milochau.Emails.Sdk.DataAccess;
 using Milochau.Emails.Sdk.Models;
-using Microsoft.Azure.ServiceBus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Threading;
 using System.Threading.Tasks;
 using Milochau.Emails.Sdk.Helpers;
 using Microsoft.Extensions.Logging;
+using Azure.Messaging.ServiceBus;
 
 namespace Milochau.Emails.Sdk.UnitTests.DataAccess
 {
     [TestClass]
     public class EmailsServiceBusClientTests
     {
-        private Mock<IQueueClient> queueClient;
+        private Mock<ServiceBusSender> serviceBusSender;
         private Mock<IEmailsValidationHelper> emailsValidationHelper;
         private Mock<ILogger<EmailsServiceBusClient>> logger;
 
@@ -22,11 +22,11 @@ namespace Milochau.Emails.Sdk.UnitTests.DataAccess
         [TestInitialize]
         public void Initialize()
         {
-            queueClient = new Mock<IQueueClient>();
+            serviceBusSender = new Mock<ServiceBusSender>();
             emailsValidationHelper = new Mock<IEmailsValidationHelper>();
             logger = new Mock<ILogger<EmailsServiceBusClient>>();
 
-            emailsServiceBusClient = new EmailsServiceBusClient(queueClient.Object, emailsValidationHelper.Object, logger.Object);
+            emailsServiceBusClient = new EmailsServiceBusClient(serviceBusSender.Object, emailsValidationHelper.Object, logger.Object);
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace Milochau.Emails.Sdk.UnitTests.DataAccess
             await emailsServiceBusClient.SendEmailAsync(email, CancellationToken.None);
 
             // Assert
-            queueClient.Verify(x => x.SendAsync(It.IsAny<Message>()));
+            serviceBusSender.Verify(x => x.SendMessageAsync(It.IsAny<ServiceBusMessage>(), It.IsAny<CancellationToken>()));
         }
     }
 }

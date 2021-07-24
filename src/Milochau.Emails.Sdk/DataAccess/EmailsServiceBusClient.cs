@@ -1,29 +1,28 @@
 ﻿using Milochau.Emails.Sdk.Models;
-using Microsoft.Azure.ServiceBus;
 using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Milochau.Emails.Sdk.Helpers;
 using System.Linq;
+using Azure.Messaging.ServiceBus;
 
 namespace Milochau.Emails.Sdk.DataAccess
 {
     /// <summary>Emails client, via Service Bus</summary>
     public class EmailsServiceBusClient : IEmailsClient
     {
-        private readonly IQueueClient queueClient;
+        private readonly ServiceBusSender serviceBusSender;
         private readonly IEmailsValidationHelper emailsValidationHelper;
         private readonly ILogger<EmailsServiceBusClient> logger;
 
         /// <summary>Constructor</summary>
-        public EmailsServiceBusClient(IQueueClient queueClient,
+        public EmailsServiceBusClient(ServiceBusSender serviceBusSender,
             IEmailsValidationHelper emailsValidationHelper,
             ILogger<EmailsServiceBusClient> logger)
         {
-            this.queueClient = queueClient;
+            this.serviceBusSender = serviceBusSender;
             this.emailsValidationHelper = emailsValidationHelper;
             this.logger = logger;
         }
@@ -38,16 +37,12 @@ namespace Milochau.Emails.Sdk.DataAccess
             {
                 var aggregatedErrors = errors.Aggregate((a, b) => a + Environment.NewLine + b);
                 logger.LogWarning("Email has not been sent, due do validation problems." + Environment.NewLine + aggregatedErrors);
-                throw new ArgumentException(nameof(email), aggregatedErrors);
+                throw new ArgumentException(aggregatedErrors, nameof(email));
             }
 
-            var message = new Message
-            {
-                MessageId = Guid.NewGuid().ToString(),
-                Body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(email))
-            };
+            var message = new ServiceBusMessage(JsonSerializer.Serialize(email));
 
-            await queueClient.SendAsync(message).ConfigureAwait(false);
+            await serviceBusSender.SendMessageAsync(message).ConfigureAwait(false);
         }
     }
 }
