@@ -1,0 +1,73 @@
+name: Deploy application (PRD)
+
+on:
+  workflow_dispatch:
+
+concurrency: deploy_app_prd
+
+env:
+  PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
+  PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
+  INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
+  INFRA_PARAMETERS_PATH: '**/scripts/infrastructure/deploy-app.prd.json'
+  INFRA_RG_NAME: 'mil-rg-emails-prd'
+  INFRA_RG_LOCATION: 'westeurope'
+  INFRA_APP_NAME: 'mil-fn-emails-prd'
+  DOTNET_VERSION: 3.1.x
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  deploy_infra:
+    name: Deploy infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # For parameters file
+        with:
+          path: emails
+      - uses: actions/checkout@v2 # For template file
+        with:
+          repository: amilochau/azure-templates
+          ref: v1
+          path: templates
+          token: ${{ secrets.PAT }}
+      - name: Login on Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy infrastructure to Azure
+        uses: Azure/cli@1.0.4
+        with:
+          inlineScript: |
+            az group create --name ${{ env.INFRA_RG_NAME }} --location ${{ env.INFRA_RG_LOCATION }}
+            az deployment group create --resource-group ${{ env.INFRA_RG_NAME }} --template-file ${{ env.INFRA_TEMPLATE_PATH }} --parameters ${{ env.INFRA_PARAMETERS_PATH }}
+  
+  deploy_app:
+    name: Deploy application
+    needs: deploy_infra
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Restore dependencies
+        shell: bash
+        run: dotnet restore ${{ env.PROJECTS_BUILD }}
+      - name: Build projects
+        shell: bash
+        run: dotnet build ${{ env.PROJECTS_BUILD }} --configuration Release --no-restore
+      - name: Publish application
+        shell: bash
+        run: dotnet publish ${{ env.PROJECTS_APPLICATION }} --configuration Release --no-restore --no-build --output ./build
+        
+      - name: Login on Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy Azure Functions application
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ env.INFRA_APP_NAME }}
+          package: './build'

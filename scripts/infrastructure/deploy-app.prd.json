@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "organizationPrefix": {
+      "value": "mil"
+    },
+    "applicationName": {
+      "value": "emails"
+    },
+    "environmentName": {
+      "value": "Production"
+    },
+    "hostName": {
+      "value": "prd"
+    },
+    "appConfigurationName": {
+      "value": "milochau"
+    },
+    "appConfigurationResourceGroup": {
+      "value": "mil-rg-shd"
+    },
+    "useApplicationInsights": {
+      "value": true
+    },
+    "useServiceBus": {
+      "value": true
+    },
+    "serviceBusQueues": {
+      "value": [
+        "emails"
+      ]
+    },
+    "useKeyVault": {
+      "value": true
+    },
+    "useAppConfiguration": {
+      "value": true
+    }
+  }
+}
