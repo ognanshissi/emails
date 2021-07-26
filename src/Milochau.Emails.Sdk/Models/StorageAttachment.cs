@@ -3,9 +3,6 @@
     /// <summary>Storage attachment reference</summary>
     public class StorageAttachment
     {
-        /// <summary>Storage account</summary>
-        public StorageAccount StorageAccount { get; set; }
-
         /// <summary>Container name</summary>
         public string ContainerName { get; set; }
 

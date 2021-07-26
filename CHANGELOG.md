@@ -6,5 +6,4 @@
 
 ## Breaking changes
 
-- SDK now uses Managed Identity to connect to Azure Service Bus. Clients should provide a `ServiceBusNamespace`, instead of `ServiceBusConnectionString`
-- Emails service now uses a fixed Service Bus queue name: `emails` 
+- Attachments are now sended via a unique Azure Storage Account
