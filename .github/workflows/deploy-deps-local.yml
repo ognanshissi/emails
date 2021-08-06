@@ -1,0 +1,37 @@
+name: Deploy dependencies (LOC)
+
+on:
+  workflow_dispatch:
+
+concurrency: deploy_deps_loc
+
+env:
+  INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
+  INFRA_PARAMETERS_PATH: '**/scripts/infrastructure/deploy-app.local.json'
+  INFRA_RG_NAME: 'mil-rg-emails-local'
+  INFRA_RG_LOCATION: 'westeurope'
+
+jobs:
+  deploy_infra:
+    name: Deploy infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # For parameters file
+        with:
+          path: emails
+      - uses: actions/checkout@v2 # For template file
+        with:
+          repository: amilochau/azure-templates
+          ref: v2
+          path: templates
+          token: ${{ secrets.PAT }}
+      - name: Login on Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy infrastructure to Azure
+        uses: Azure/cli@1.0.4
+        with:
+          inlineScript: |
+            az group create --name ${{ env.INFRA_RG_NAME }} --location ${{ env.INFRA_RG_LOCATION }}
+            az deployment group create --resource-group ${{ env.INFRA_RG_NAME }} --template-file ${{ env.INFRA_TEMPLATE_PATH }} --parameters ${{ env.INFRA_PARAMETERS_PATH }}

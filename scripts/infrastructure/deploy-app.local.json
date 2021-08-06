@@ -12,7 +12,7 @@
       "value": "Development"
     },
     "hostName": {
-      "value": "dev"
+      "value": "local"
     },
     "appConfigurationName": {
       "value": "milochau"
@@ -21,10 +21,10 @@
       "value": "mil-rg-shd"
     },
     "useApplicationInsights": {
-      "value": true
+      "value": false
     },
     "useKeyVault": {
-      "value": true
+      "value": false
     },
     "serviceBusQueues": {
       "value": [

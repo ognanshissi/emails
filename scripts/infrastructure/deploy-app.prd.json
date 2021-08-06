@@ -23,7 +23,7 @@
     "useApplicationInsights": {
       "value": true
     },
-    "useServiceBus": {
+    "useKeyVault": {
       "value": true
     },
     "serviceBusQueues": {
@@ -31,11 +31,17 @@
         "emails"
       ]
     },
-    "useKeyVault": {
-      "value": true
-    },
-    "useAppConfiguration": {
-      "value": true
+    "storageAccounts": {
+      "value": [
+        {
+          "number": "1",
+          "containers": [
+            "default"
+          ],
+          "readOnly": true,
+          "daysBeforeDeletion": 30
+        }
+      ]
     }
   }
 }

@@ -11,13 +11,12 @@ using Azure.Messaging.ServiceBus;
 namespace Milochau.Emails.Sdk.DataAccess
 {
     /// <summary>Emails client, via Service Bus</summary>
-    public class EmailsServiceBusClient : IEmailsClient
+    internal class EmailsServiceBusClient : IEmailsClient
     {
         private readonly ServiceBusSender serviceBusSender;
         private readonly IEmailsValidationHelper emailsValidationHelper;
         private readonly ILogger<EmailsServiceBusClient> logger;
 
-        /// <summary>Constructor</summary>
         public EmailsServiceBusClient(ServiceBusSender serviceBusSender,
             IEmailsValidationHelper emailsValidationHelper,
             ILogger<EmailsServiceBusClient> logger)
@@ -27,9 +26,6 @@ namespace Milochau.Emails.Sdk.DataAccess
             this.logger = logger;
         }
 
-        /// <summary>Send an email</summary>
-        /// <param name="email">Email content and metadata</param>
-        /// <param name="cancellationToken">Cancellation token</param>
         public async Task SendEmailAsync(Email email, CancellationToken cancellationToken)
         {
             var errors = emailsValidationHelper.ValidateEmail(email);

@@ -7,6 +7,6 @@ namespace Milochau.Emails.DataAccess
 {
     public interface IStorageDataAccess
     {
-        Task<Stream> ReadToStreamAsync(StorageAttachment attachment, CancellationToken cancellationToken);
+        Task<Stream> ReadToStreamAsync(EmailAttachment attachment, CancellationToken cancellationToken);
     }
 }

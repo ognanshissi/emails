@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Milochau.Emails.DataAccess
 {
-    public class EmailsSendGridClient : IEmailsDataAccess
+    internal class EmailsSendGridClient : IEmailsDataAccess
     {
         private readonly ISendGridClient sendGridClient;
         private readonly IStorageDataAccess storageDataAccess;
@@ -32,7 +32,7 @@ namespace Milochau.Emails.DataAccess
                 .Handle<Exception>()
                 .RetryAsync((exception, count) =>
                 {
-                    logger.LogWarning($"Error with attempt #{count} to send email with SendGrid", exception);
+                    logger.LogWarning(exception, $"Error with attempt #{count} to send email with SendGrid");
                 });
 
             await policy.ExecuteAsync((ctx) => SendEmailAsync(sendGridMessage, ctx), cancellationToken);

@@ -1,7 +1,7 @@
 ﻿namespace Milochau.Emails.Sdk.Models
 {
-    /// <summary>Storage attachment reference</summary>
-    public class StorageAttachment
+    /// <summary>Email attachment</summary>
+    public class EmailAttachment
     {
         /// <summary>Container name</summary>
         public string ContainerName { get; set; }

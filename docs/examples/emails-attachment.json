@@ -1,0 +1,19 @@
+{
+  "subject": "Test",
+  "body": "This is the body of the email",
+  "from": {
+    "email": "noreply@noreply.com"
+  },
+  "tos": [
+    {
+      "email": "your@email.com"
+    }
+  ],
+  "attachments": [
+    {
+      "containerName": "default",
+      "fileName": "test.txt",
+      "publicFileName": "friendly-name.txt"
+    }
+  ]
+}

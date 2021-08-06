@@ -48,6 +48,6 @@ namespace Milochau.Emails.Sdk.Models
         public PriorityType Priority { get; set; }
 
         /// <summary>Mail attachements references</summary>
-        public ICollection<StorageAttachment> Attachments { get; set; } = new List<StorageAttachment>();
+        public ICollection<EmailAttachment> Attachments { get; set; } = new List<EmailAttachment>();
     }
 }

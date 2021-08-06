@@ -13,6 +13,8 @@ using Milochau.Emails.Services;
 using Milochau.Emails.Services.EmailTemplates;
 using SendGrid;
 using System.Text.Encodings.Web;
+using Milochau.Core.Abstractions;
+using Microsoft.Extensions.Logging;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace Milochau.Emails
@@ -38,11 +40,6 @@ namespace Milochau.Emails
                 {
                     configuration.Bind("SendGrid", settings);
                 });
-            services.AddOptions<StorageOptions>()
-                .Configure<IConfiguration>((settings, configuration) =>
-                {
-                    configuration.Bind("Storage", settings);
-                });
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -59,8 +56,15 @@ namespace Milochau.Emails
 
         private void RegisterDataAccess(IServiceCollection services)
         {
-            services.AddScoped<IEmailsDataAccess, EmailsSendGridClient>();
-            services.AddScoped<IStorageDataAccess, StorageDataAccess>();
+            services.AddSingleton<IEmailsDataAccess, EmailsSendGridClient>();
+
+            services.AddSingleton<IStorageDataAccess>(serviceProvider =>
+            {
+                var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
+                var emailsOptions = serviceProvider.GetService<IOptions<EmailsOptions>>().Value;
+                var logger = serviceProvider.GetRequiredService<ILogger<StorageDataAccess>>();
+                return new StorageDataAccess(hostOptions, emailsOptions, logger);
+            });
             
             services.AddSingleton<ISendGridClient>(serviceProvider =>
             {
