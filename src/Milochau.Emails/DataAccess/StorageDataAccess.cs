@@ -13,7 +13,7 @@ namespace Milochau.Emails.DataAccess
         private readonly BlobContainerClient blobContainerClient;
         private readonly ILogger<StorageDataAccess> logger;
 
-        internal const string defaultContainerName = "default";
+        internal const string DefaultContainerName = "default";
 
         public StorageDataAccess(BlobContainerClient blobContainerClient,
             ILogger<StorageDataAccess> logger)

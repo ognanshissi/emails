@@ -72,7 +72,7 @@ namespace Milochau.Emails
 
                 var credential = new DefaultAzureCredential(hostOptions.Credential);
                 var blobServiceClient = new BlobServiceClient(new Uri(emailsOptions.StorageAccountUri), credential);
-                var blobContainerClient = blobServiceClient.GetBlobContainerClient(StorageDataAccess.defaultContainerName);
+                var blobContainerClient = blobServiceClient.GetBlobContainerClient(StorageDataAccess.DefaultContainerName);
                 return new StorageDataAccess(blobContainerClient, logger);
             });
             

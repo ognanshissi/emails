@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Milochau.Emails.Sdk.DataAccess;
 using Milochau.Emails.Sdk.Helpers;
+using System;
 
 namespace Milochau.Emails.Sdk.UnitTests
 {
@@ -18,7 +19,7 @@ namespace Milochau.Emails.Sdk.UnitTests
         }
 
         [TestMethod]
-        public void AddEmailsClients_Should_NotRegisterEmailsClient_When_NoSettingsIsConfigured()
+        public void AddEmailsClients_Should_ThrowExceptionOnRuntime_When_NoSettingsIsConfigured()
         {
             // Arrange
 
@@ -31,7 +32,7 @@ namespace Milochau.Emails.Sdk.UnitTests
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             Assert.IsNotNull(serviceProvider.GetService<IEmailsValidationHelper>());
-            Assert.IsNull(serviceProvider.GetService<IEmailsClient>());
+            Assert.ThrowsException<ArgumentException>(() => serviceProvider.GetService<IEmailsClient>());
         }
 
         [TestMethod]

@@ -12,8 +12,6 @@ namespace Milochau.Emails.Sdk.DataAccess
         private readonly BlobContainerClient blobContainerClient;
         private readonly ILogger<AttachmentsStorageClient> logger;
 
-        internal const string defaultContainerName = "default";
-
         public AttachmentsStorageClient(BlobContainerClient blobContainerClient,
             ILogger<AttachmentsStorageClient> logger)
         {

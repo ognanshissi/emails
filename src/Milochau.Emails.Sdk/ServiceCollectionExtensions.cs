@@ -16,6 +16,7 @@ namespace Milochau.Emails.Sdk
     public static class ServiceCollectionExtensions
     {
         private const string serviceBusQueueNameEmails = "emails";
+        private const string azureStorageContainerName = "default";
 
         /// <summary>Register emails clients, to be accessed from dependency injection</summary>
         /// <param name="services">Service collection</param>
@@ -29,36 +30,30 @@ namespace Milochau.Emails.Sdk
             services.AddSingleton<IEmailsValidationHelper, EmailsValidationHelper>();
 
             // Add services for Azure Storage Account
-            if (settingsValue.StorageAccountUri != null)
+            services.AddSingleton<IAttachmentsClient>(serviceProvider =>
             {
-                services.AddSingleton<IAttachmentsClient>(serviceProvider =>
-                {
-                    var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
-                    var logger = serviceProvider.GetRequiredService<ILogger<AttachmentsStorageClient>>();
+                var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
+                var logger = serviceProvider.GetRequiredService<ILogger<AttachmentsStorageClient>>();
 
-                    var credential = new DefaultAzureCredential(hostOptions?.Value.Credential);
-                    var blobServiceClient = new BlobServiceClient(settingsValue.StorageAccountUri, credential);
-                    var blobContainerClient = blobServiceClient.GetBlobContainerClient(AttachmentsStorageClient.defaultContainerName);
-                    return new AttachmentsStorageClient(blobContainerClient, logger);
-                });
-            }
+                var credential = new DefaultAzureCredential(hostOptions.Value.Credential);
+                var blobServiceClient = new BlobServiceClient(settingsValue.StorageAccountUri, credential);
+                var blobContainerClient = blobServiceClient.GetBlobContainerClient(azureStorageContainerName);
+                return new AttachmentsStorageClient(blobContainerClient, logger);
+            });
 
             // Add services for Azure Service Bus
-            if (!string.IsNullOrEmpty(settingsValue.ServiceBusNamespace))
+            services.AddSingleton<IEmailsClient>(serviceProvider =>
             {
-                services.AddSingleton<IEmailsClient>(serviceProvider =>
-                {
-                    var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
-                    var emailsValidationHelper = serviceProvider.GetRequiredService<IEmailsValidationHelper>();
-                    var logger = serviceProvider.GetRequiredService<ILogger<EmailsServiceBusClient>>();
+                var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
+                var emailsValidationHelper = serviceProvider.GetRequiredService<IEmailsValidationHelper>();
+                var logger = serviceProvider.GetRequiredService<ILogger<EmailsServiceBusClient>>();
 
-                    var credential = new DefaultAzureCredential(hostOptions?.Value.Credential);
-                    var serviceBusClient = new ServiceBusClient(settingsValue.ServiceBusNamespace, credential);
-                    var serviceBusSender = serviceBusClient.CreateSender(serviceBusQueueNameEmails);
+                var credential = new DefaultAzureCredential(hostOptions.Value.Credential);
+                var serviceBusClient = new ServiceBusClient(settingsValue.ServiceBusNamespace, credential);
+                var serviceBusSender = serviceBusClient.CreateSender(serviceBusQueueNameEmails);
 
-                    return new EmailsServiceBusClient(serviceBusSender, emailsValidationHelper, logger);
-                });
-            }
+                return new EmailsServiceBusClient(serviceBusSender, emailsValidationHelper, logger);
+            });
 
             return services;
         }
