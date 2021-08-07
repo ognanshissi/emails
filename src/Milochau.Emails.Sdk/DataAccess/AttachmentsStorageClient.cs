@@ -1,8 +1,5 @@
-﻿using Azure.Identity;
-using Azure.Storage.Blobs;
+﻿using Azure.Storage.Blobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Milochau.Core.Abstractions;
 using Milochau.Emails.Sdk.Models;
 using System;
 using System.Threading;
@@ -12,18 +9,15 @@ namespace Milochau.Emails.Sdk.DataAccess
 {
     internal class AttachmentsStorageClient : IAttachmentsClient
     {
-        private readonly IOptions<CoreHostOptions> hostOptions;
-        private readonly EmailsServiceSettings options;
+        private readonly BlobContainerClient blobContainerClient;
         private readonly ILogger<AttachmentsStorageClient> logger;
 
-        private const string defaultContainerName = "default";
+        internal const string defaultContainerName = "default";
 
-        public AttachmentsStorageClient(IOptions<CoreHostOptions> hostOptions,
-            EmailsServiceSettings options,
+        public AttachmentsStorageClient(BlobContainerClient blobContainerClient,
             ILogger<AttachmentsStorageClient> logger)
         {
-            this.hostOptions = hostOptions;
-            this.options = options;
+            this.blobContainerClient = blobContainerClient;
             this.logger = logger;
         }
 
@@ -33,9 +27,6 @@ namespace Milochau.Emails.Sdk.DataAccess
         /// <returns>The document URI</returns>
         public async Task<Uri> WriteFromStreamAsync(EmailAttachmentContent attachment, CancellationToken cancellationToken)
         {
-            var credential = new DefaultAzureCredential(hostOptions?.Value.Credential);
-            var blobServiceClient = new BlobServiceClient(options.StorageAccountUri, credential);
-            var blobContainerClient = blobServiceClient.GetBlobContainerClient(defaultContainerName);
             var fileName = Guid.NewGuid().ToString();
             var blobClient = blobContainerClient.GetBlobClient(fileName);
 

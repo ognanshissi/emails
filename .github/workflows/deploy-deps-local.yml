@@ -1,4 +1,4 @@
-name: Deploy dependencies (LOC)
+name: Deploy dependencies (LOCAL)
 
 on:
   workflow_dispatch:

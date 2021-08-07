@@ -8,6 +8,7 @@ using Azure.Identity;
 using Milochau.Core.Abstractions;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Options;
+using Azure.Storage.Blobs;
 
 namespace Milochau.Emails.Sdk
 {
@@ -35,7 +36,10 @@ namespace Milochau.Emails.Sdk
                     var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
                     var logger = serviceProvider.GetRequiredService<ILogger<AttachmentsStorageClient>>();
 
-                    return new AttachmentsStorageClient(hostOptions, settingsValue, logger);
+                    var credential = new DefaultAzureCredential(hostOptions?.Value.Credential);
+                    var blobServiceClient = new BlobServiceClient(settingsValue.StorageAccountUri, credential);
+                    var blobContainerClient = blobServiceClient.GetBlobContainerClient(AttachmentsStorageClient.defaultContainerName);
+                    return new AttachmentsStorageClient(blobContainerClient, logger);
                 });
             }
 

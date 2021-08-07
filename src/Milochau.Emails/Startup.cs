@@ -15,6 +15,10 @@ using SendGrid;
 using System.Text.Encodings.Web;
 using Milochau.Core.Abstractions;
 using Microsoft.Extensions.Logging;
+using Milochau.Core.Infrastructure.Hosting;
+using Azure.Identity;
+using Azure.Storage.Blobs;
+using System;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace Milochau.Emails
@@ -23,17 +27,20 @@ namespace Milochau.Emails
     {
         protected override void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            RegisterOptions(services);
+            var hostOptions = CoreOptionsFactory.GetCoreHostOptions(configuration);
+
+            RegisterOptions(services, hostOptions);
             RegisterServices(services);
-            RegisterDataAccess(services);
+            RegisterDataAccess(services, hostOptions);
         }
 
-        private void RegisterOptions(IServiceCollection services)
+        private void RegisterOptions(IServiceCollection services, CoreHostOptions hostOptions)
         {
             services.AddOptions<EmailsOptions>()
                 .Configure<IConfiguration>((settings, configuration) =>
                 {
                     configuration.Bind("Emails", settings);
+                    settings.StorageAccountUri ??= $"https://{hostOptions.Application.OrganizationName}stg{hostOptions.Application.ApplicationName}1{hostOptions.Application.HostName}.blob.core.windows.net/";
                 });
             services.AddOptions<SendGridOptions>()
                 .Configure<IConfiguration>((settings, configuration) =>
@@ -54,16 +61,19 @@ namespace Milochau.Emails
             services.AddScoped<IEmailsValidationHelper, EmailsValidationHelper>();
         }
 
-        private void RegisterDataAccess(IServiceCollection services)
+        private void RegisterDataAccess(IServiceCollection services, CoreHostOptions hostOptions)
         {
             services.AddSingleton<IEmailsDataAccess, EmailsSendGridClient>();
 
             services.AddSingleton<IStorageDataAccess>(serviceProvider =>
             {
-                var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
                 var emailsOptions = serviceProvider.GetService<IOptions<EmailsOptions>>().Value;
                 var logger = serviceProvider.GetRequiredService<ILogger<StorageDataAccess>>();
-                return new StorageDataAccess(hostOptions, emailsOptions, logger);
+
+                var credential = new DefaultAzureCredential(hostOptions.Credential);
+                var blobServiceClient = new BlobServiceClient(new Uri(emailsOptions.StorageAccountUri), credential);
+                var blobContainerClient = blobServiceClient.GetBlobContainerClient(StorageDataAccess.defaultContainerName);
+                return new StorageDataAccess(blobContainerClient, logger);
             });
             
             services.AddSingleton<ISendGridClient>(serviceProvider =>
