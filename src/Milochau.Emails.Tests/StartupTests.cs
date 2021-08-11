@@ -52,7 +52,6 @@ namespace Milochau.Emails.UnitTests
             Assert.IsNotNull(serviceProvider.GetService<IEmailsService>());
 
             Assert.IsNotNull(serviceProvider.GetService<IEmailsDataAccess>());
-            Assert.IsNotNull(serviceProvider.GetService<IStorageDataAccess>());
             Assert.IsNotNull(serviceProvider.GetService<ISendGridClient>());
 
             // --- Check Feature Flags
@@ -72,6 +71,8 @@ namespace Milochau.Emails.UnitTests
 
             public void ConfigureServices()
             {
+                StartupConfiguration.ConfigurationRefresher = Mock.Of<IConfigurationRefresher>();
+                RegisterInfrastructure(services, configuration);
                 ConfigureServices(services, configuration);
             }
         }

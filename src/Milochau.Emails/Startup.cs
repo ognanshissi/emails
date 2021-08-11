@@ -51,9 +51,6 @@ namespace Milochau.Emails
 
         private void RegisterServices(IServiceCollection services)
         {
-            services.AddFeatureManagement();
-            services.AddSingleton(StartupConfiguration.ConfigurationRefresher);
-
             services.AddScoped<IEmailsService, EmailsService>();
             services.AddScoped<ITranslationService, TranslationService>();
             services.AddScoped<IEmailTemplateFactory, EmailTemplateFactory>();
