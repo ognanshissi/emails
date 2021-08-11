@@ -13,6 +13,7 @@ env:
   INFRA_RG_NAME: 'mil-rg-emails-dev'
   INFRA_RG_LOCATION: 'westeurope'
   INFRA_APP_NAME: 'mil-fn-emails-dev'
+  INFRA_HEALTH: 'https://mil-fn-emails-dev.azurewebsites.net/api/health/light'
   DOTNET_VERSION: 3.1.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
@@ -71,3 +72,6 @@ jobs:
         with:
           app-name: ${{ env.INFRA_APP_NAME }}
           package: './build'
+      - name: Check health
+        shell: pwsh
+        run: Invoke-WebRequest ${{ env.INFRA_HEALTH }} -TimeoutSec 120 -MaximumRetryCount 12 -RetryIntervalSec 10
