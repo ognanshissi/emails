@@ -24,13 +24,14 @@ These settings need to be defined; default value for local development are fetch
 
 - **`SendGrid:Key`**
 - `Emails:AuthorizedRecipientHosts`
-- `Emails:StorageAccountUri`
+- `Emails:StorageAccountUri` (needs `Storage Blob Data Reader` RBAC)
 
 These settings can not be defined from Azure App Configuration / Azure Key Vault, and should be defined in `local.settings.json` **and** in hosting configuration as environment variables:
 
+- **`ASPNETCORE_ORGANIZATION`**
 - **`ASPNETCORE_APPLICATION`**
 - **`ASPNETCORE_ENVIRONMENT`**
 - **`ASPNETCORE_HOST`**
 - **`ASPNETCORE_KEYVAULT_VAULT`**
 - **`ASPNETCORE_APPCONFIG_ENDPOINT`**
-- **`ServiceBusNamespace`**
+- **`ServiceBusConnectionString`**
