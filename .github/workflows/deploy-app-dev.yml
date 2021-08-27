@@ -9,7 +9,7 @@ env:
   PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
   PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
   INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
-  INFRA_PARAMETERS_PATH: '**/scripts/infrastructure/deploy-app.dev.json'
+  INFRA_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.dev.json'
   INFRA_RG_NAME: 'mil-rg-emails-dev'
   INFRA_RG_LOCATION: 'westeurope'
   INFRA_APP_NAME: 'mil-fn-emails-dev'
