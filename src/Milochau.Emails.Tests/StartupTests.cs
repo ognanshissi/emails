@@ -11,10 +11,10 @@ using Moq;
 using SendGrid;
 using System.Collections.Generic;
 using System.Text.Encodings.Web;
-using Milochau.Core.Functions;
 using Microsoft.FeatureManagement;
+using Milochau.Core.Functions;
 
-namespace Milochau.Emails.UnitTests
+namespace Milochau.Emails.Tests
 {
     [TestClass]
     public class StartupTests
@@ -36,12 +36,11 @@ namespace Milochau.Emails.UnitTests
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddSingleton(Mock.Of<IHostEnvironment>());
             serviceCollection.AddSingleton(Mock.Of<HtmlEncoder>());
-            StartupConfiguration.ConfigurationRefresher = Mock.Of<IConfigurationRefresher>();
 
-            var startup = new TestableStartup(serviceCollection, configuration);
+            var startup = TestableStartup.Create<Startup>(configuration);
 
             // Act
-            startup.ConfigureServices();
+            startup.ConfigureServices(serviceCollection);
 
             // Assert
             var serviceProvider = serviceCollection.BuildServiceProvider();
@@ -53,28 +52,10 @@ namespace Milochau.Emails.UnitTests
 
             Assert.IsNotNull(serviceProvider.GetService<IEmailsDataAccess>());
             Assert.IsNotNull(serviceProvider.GetService<ISendGridClient>());
-
-            // --- Check Feature Flags
-            Assert.IsNotNull(serviceProvider.GetService<IFeatureManager>());
         }
 
         public class TestableStartup : Startup
         {
-            private readonly IServiceCollection services;
-            private readonly IConfiguration configuration;
-
-            public TestableStartup(IServiceCollection services, IConfiguration configuration)
-            {
-                this.services = services;
-                this.configuration = configuration;
-            }
-
-            public void ConfigureServices()
-            {
-                StartupConfiguration.ConfigurationRefresher = Mock.Of<IConfigurationRefresher>();
-                RegisterInfrastructure(services, configuration);
-                ConfigureServices(services, configuration);
-            }
         }
     }
 }

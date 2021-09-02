@@ -11,14 +11,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Milochau.Emails.Sdk.Helpers;
 
-namespace Milochau.Emails.UnitTests.Functions
+namespace Milochau.Emails.Tests.Functions
 {
     [TestClass]
-    public class EmailsFunctionTests
+    public class EmailsFunctionTests : BaseFunctionsTests
     {
         private Mock<IEmailsService> emailsService;
         private Mock<IEmailsValidationHelper> emailsValidationHelper;
-        private Mock<ILogger> logger;
 
         private EmailsFunctions emailsFunctions;
 
@@ -27,7 +26,6 @@ namespace Milochau.Emails.UnitTests.Functions
         {
             emailsService = new Mock<IEmailsService>();
             emailsValidationHelper = new Mock<IEmailsValidationHelper>();
-            logger = new Mock<ILogger>();
 
             emailsFunctions = new EmailsFunctions(emailsService.Object, emailsValidationHelper.Object);
         }
@@ -36,11 +34,12 @@ namespace Milochau.Emails.UnitTests.Functions
         public async Task SendEmailFromServiceBusAsync_Should_ReturnOkResult_When_CalledWithProperArguments()
         {
             // Arrange
+            var context = CreateFunctionsContext();
             var email = new Email();
             emailsValidationHelper.Setup(x => x.ValidateEmail(It.IsAny<Email>())).Returns(Enumerable.Empty<string>());
 
             // Act
-            await emailsFunctions.SendEmailFromServiceBusAsync(email, logger.Object, CancellationToken.None);
+            await emailsFunctions.SendEmailFromServiceBusAsync(email, context);
 
             // Assert
             emailsService.Verify(x => x.SendEmailAsync(It.IsAny<Email>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -51,11 +50,12 @@ namespace Milochau.Emails.UnitTests.Functions
         public async Task SendEmailFromServiceBusAsync_ShouldThrowException_When_EmailServiceValidationFails()
         {
             // Arrange
+            var context = CreateFunctionsContext();
             var email = new Email();
             emailsValidationHelper.Setup(x => x.ValidateEmail(It.IsAny<Email>())).Returns(new List<string> { "Error" });
 
             // Act
-            await emailsFunctions.SendEmailFromServiceBusAsync(email, logger.Object, CancellationToken.None);
+            await emailsFunctions.SendEmailFromServiceBusAsync(email, context);
 
             // Assert
             emailsService.Verify(x => x.SendEmailAsync(It.IsAny<Email>(), It.IsAny<CancellationToken>()), Times.Never);

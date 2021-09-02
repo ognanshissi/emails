@@ -3,34 +3,34 @@
     "Local": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ORGANIZATION": "mil",
-        "ASPNETCORE_APPLICATION": "emails",
-        "ASPNETCORE_HOST": "local",
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_KEYVAULT_VAULT": "https://mil-kv-emails-dev.vault.azure.net/",
-        "ASPNETCORE_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
+        "AZURE_FUNCTIONS_ORGANIZATION": "mil",
+        "AZURE_FUNCTIONS_APPLICATION": "emails",
+        "AZURE_FUNCTIONS_HOST": "local",
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
+        "AZURE_FUNCTIONS_KEYVAULT_VAULT": "https://mil-emails-dev-kv.vault.azure.net/",
+        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
       }
     },
     "Development": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ORGANIZATION": "mil",
-        "ASPNETCORE_APPLICATION": "emails",
-        "ASPNETCORE_HOST": "local",
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_KEYVAULT_VAULT": "https://mil-kv-emails-dev.vault.azure.net/",
-        "ASPNETCORE_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
+        "AZURE_FUNCTIONS_ORGANIZATION": "mil",
+        "AZURE_FUNCTIONS_APPLICATION": "emails",
+        "AZURE_FUNCTIONS_HOST": "local",
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
+        "AZURE_FUNCTIONS_KEYVAULT_VAULT": "https://mil-emails-dev-kv.vault.azure.net/",
+        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
       }
     },
     "Production": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ORGANIZATION": "mil",
-        "ASPNETCORE_APPLICATION": "emails",
-        "ASPNETCORE_HOST": "local",
-        "ASPNETCORE_ENVIRONMENT": "Production",
-        "ASPNETCORE_KEYVAULT_VAULT": "https://mil-kv-emails-prd.vault.azure.net/",
-        "ASPNETCORE_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
+        "AZURE_FUNCTIONS_ORGANIZATION": "mil",
+        "AZURE_FUNCTIONS_APPLICATION": "emails",
+        "AZURE_FUNCTIONS_HOST": "local",
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Production",
+        "AZURE_FUNCTIONS_KEYVAULT_VAULT": "https://mil-emails-prd-kv.vault.azure.net/",
+        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
       }
     }
   }

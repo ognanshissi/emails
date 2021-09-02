@@ -1,12 +1,12 @@
-﻿using Microsoft.Azure.WebJobs;
-using Milochau.Emails.Services;
+﻿using Milochau.Emails.Services;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System;
 using Milochau.Emails.Sdk.Models;
-using System.Threading;
 using System.Linq;
 using Milochau.Emails.Sdk.Helpers;
+using Microsoft.Azure.Functions.Worker;
+using System.Threading;
 
 namespace Milochau.Emails.Functions
 {
@@ -26,9 +26,10 @@ namespace Milochau.Emails.Functions
         /// <remarks>
         /// The queue item must be an object of type <see cref="Email"/>
         /// </remarks>
-        [FunctionName("SendEmailFromServiceBus")]
-        public async Task SendEmailFromServiceBusAsync([ServiceBusTrigger("emails", Connection = "ServiceBusConnectionString")] Email email, ILogger logger, CancellationToken cancellationToken)
+        [Function("SendEmailFromServiceBus")]
+        public async Task SendEmailFromServiceBusAsync([ServiceBusTrigger("emails")] Email email, FunctionContext context)
         {
+            var logger = context.GetLogger<EmailsFunctions>();
             logger.LogDebug("Start running SendEmailFromServiceBus Function...");
 
             var errors = emailsValidationHelper.ValidateEmail(email);
@@ -39,7 +40,7 @@ namespace Milochau.Emails.Functions
                 throw new ArgumentException(nameof(Email), aggregatedErrors);
             }
 
-            await emailsService.SendEmailAsync(email, cancellationToken);
+            await emailsService.SendEmailAsync(email, CancellationToken.None);
 
             logger.LogDebug("Email has been sent.");
         }

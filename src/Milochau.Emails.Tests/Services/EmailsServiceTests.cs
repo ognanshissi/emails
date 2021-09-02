@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Milochau.Emails.Services.EmailTemplates;
 
-namespace Milochau.Emails.UnitTests.Services
+namespace Milochau.Emails.Tests.Services
 {
     [TestClass]
     public class EmailsServiceTests

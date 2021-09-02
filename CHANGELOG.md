@@ -4,6 +4,6 @@
 [//]: # (Bug fixes)
 [//]: # (Minor changes)
 
-## New features
+## Breaking changes
 
-- Milochau.Emails.Sdk now registers all dependencies into DI, even if configuration is not properly set
+- Milochau.Emails.Sdk now uses .NET 5.0 libraries

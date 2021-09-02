@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Milochau.Emails.UnitTests.DataAccess
+namespace Milochau.Emails.Tests.DataAccess
 {
     [TestClass]
     public class EmailsSendGridClientTests

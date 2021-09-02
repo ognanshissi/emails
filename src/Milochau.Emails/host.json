@@ -4,9 +4,14 @@
     "applicationInsights": {
       "samplingSettings": {
         "isEnabled": true,
-        "maxTelemetryItemsPerSecond": 20,
+        "maxTelemetryItemsPerSecond": 5,
         "excludedTypes": "Request;Exception"
       }
+    },
+    "logLevel": {
+      "default": "Warning",
+      "Host.Aggregator": "Information",
+      "Host.Results": "Information"
     }
   }
 }

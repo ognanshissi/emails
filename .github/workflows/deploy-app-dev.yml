@@ -7,14 +7,14 @@ concurrency: deploy_app_dev
 
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
-  PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
+  PROJECTS_PUBLISH: './src/Milochau.Emails'
   INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
   INFRA_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.dev.json'
-  INFRA_RG_NAME: 'mil-rg-emails-dev'
+  INFRA_RG_NAME: 'mil-emails-dev-rg'
   INFRA_RG_LOCATION: 'westeurope'
-  INFRA_APP_NAME: 'mil-fn-emails-dev'
-  INFRA_HEALTH: 'https://mil-fn-emails-dev.azurewebsites.net/api/health/light'
-  DOTNET_VERSION: 3.1.x
+  INFRA_APP_NAME: 'mil-emails-dev-fn'
+  INFRA_HEALTH: 'https://mil-emails-dev-fn.azurewebsites.net/api/health/light'
+  DOTNET_VERSION: 5.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v2 # For template file
         with:
           repository: amilochau/azure-templates
-          ref: v2
+          ref: v3
           path: templates
           token: ${{ secrets.PAT }}
       - name: Login on Azure
@@ -53,25 +53,31 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Restore dependencies
-        shell: bash
-        run: dotnet restore ${{ env.PROJECTS_BUILD }}
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x' # See https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-core-31-dependency
+      
       - name: Build projects
         shell: bash
-        run: dotnet build ${{ env.PROJECTS_BUILD }} --configuration Release --no-restore
-      - name: Publish application
-        shell: bash
-        run: dotnet publish ${{ env.PROJECTS_APPLICATION }} --configuration Release --no-restore --no-build --output ./build
+        run: dotnet build ${{ env.PROJECTS_BUILD }} --configuration Release
         
       - name: Login on Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Download and install Azure Functions Core Tools v3
+        shell: bash
+        run: |
+          wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo apt-get update
+          sudo apt-get install azure-functions-core-tools-3
       - name: Deploy Azure Functions application
-        uses: Azure/functions-action@v1
-        with:
-          app-name: ${{ env.INFRA_APP_NAME }}
-          package: './build'
+        shell: bash
+        run: func azure functionapp publish ${{ env.INFRA_APP_NAME }}
+        working-directory: ${{ env.PROJECTS_PUBLISH }}
+
       - name: Check health
         shell: pwsh
         run: Invoke-WebRequest ${{ env.INFRA_HEALTH }} -TimeoutSec 120 -MaximumRetryCount 12 -RetryIntervalSec 10

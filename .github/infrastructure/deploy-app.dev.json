@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "organizationPrefix": {
+    "organizationName": {
       "value": "mil"
     },
     "applicationName": {
@@ -14,34 +14,49 @@
     "hostName": {
       "value": "dev"
     },
-    "appConfigurationName": {
-      "value": "milochau"
+    "monitoring": {
+      "value": {
+        "enableApplicationInsights": true,
+        "disableLocalAuth": false,
+        "dailyCap": "0.1",
+        "workspaceName": "mil-monitoring-dev-ws",
+        "workspaceResourceGroup": "mil-monitoring-dev-rg"
+      }
     },
-    "appConfigurationResourceGroup": {
-      "value": "mil-rg-shd"
+    "configuration": {
+      "value": {
+        "enableAppConfiguration": true,
+        "appConfigurationName": "milochau",
+        "appConfigurationResourceGroup": "mil-rg-shd"
+      }
     },
-    "useApplicationInsights": {
-      "value": true
+    "secrets": {
+      "value": {
+        "enableKeyVault": true
+      }
     },
-    "useKeyVault": {
-      "value": true
+    "messaging": {
+      "value": {
+        "enableServiceBus": true,
+        "serviceBusQueues": [
+          "emails"
+        ]
+      }
     },
-    "serviceBusQueues": {
-      "value": [
-        "emails"
-      ]
-    },
-    "storageAccounts": {
-      "value": [
-        {
-          "number": "1",
-          "containers": [
-            "default"
-          ],
-          "readOnly": true,
-          "daysBeforeDeletion": 30
-        }
-      ]
+    "storage": {
+      "value": {
+        "enableStorage": true,
+        "storageAccounts": [
+          {
+            "number": "1",
+            "containers": [
+              "default"
+            ],
+            "readOnly": true,
+            "daysBeforeDeletion": 30
+          }
+        ]
+      }
     }
   }
 }

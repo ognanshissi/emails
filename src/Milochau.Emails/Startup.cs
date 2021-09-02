@@ -1,40 +1,33 @@
-﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.FeatureManagement;
 using Milochau.Core.Functions;
 using Milochau.Emails.Sdk.Helpers;
-using Milochau.Emails;
 using Milochau.Emails.DataAccess;
 using Milochau.Emails.Models.Options;
 using Milochau.Emails.Services;
 using Milochau.Emails.Services.EmailTemplates;
 using SendGrid;
 using System.Text.Encodings.Web;
-using Milochau.Core.Abstractions;
 using Microsoft.Extensions.Logging;
-using Milochau.Core.Infrastructure.Hosting;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using System;
 
-[assembly: FunctionsStartup(typeof(Startup))]
 namespace Milochau.Emails
 {
     public class Startup : CoreFunctionsStartup
     {
-        protected override void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public override void ConfigureServices(IServiceCollection services)
         {
-            var hostOptions = CoreOptionsFactory.GetCoreHostOptions(configuration);
+            base.ConfigureServices(services);
 
-            RegisterOptions(services, hostOptions);
+            RegisterOptions(services);
             RegisterServices(services);
-            RegisterDataAccess(services, hostOptions);
+            RegisterDataAccess(services);
         }
 
-        private void RegisterOptions(IServiceCollection services, CoreHostOptions hostOptions)
+        private void RegisterOptions(IServiceCollection services)
         {
             services.AddOptions<EmailsOptions>()
                 .Configure<IConfiguration>((settings, configuration) =>
@@ -58,7 +51,7 @@ namespace Milochau.Emails
             services.AddScoped<IEmailsValidationHelper, EmailsValidationHelper>();
         }
 
-        private void RegisterDataAccess(IServiceCollection services, CoreHostOptions hostOptions)
+        private void RegisterDataAccess(IServiceCollection services)
         {
             services.AddSingleton<IEmailsDataAccess, EmailsSendGridClient>();
 
