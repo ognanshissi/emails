@@ -33,7 +33,7 @@ namespace Milochau.Emails
                 .Configure<IConfiguration>((settings, configuration) =>
                 {
                     configuration.Bind("Emails", settings);
-                    settings.StorageAccountUri ??= $"https://{hostOptions.Application.OrganizationName}stg{hostOptions.Application.ApplicationName}1{hostOptions.Application.HostName}.blob.core.windows.net/";
+                    settings.StorageAccountUri ??= $"https://{hostOptions.Application.OrganizationName}{hostOptions.Application.ApplicationName}{hostOptions.Application.HostName}sto1.blob.core.windows.net/";
                 });
             services.AddOptions<SendGridOptions>()
                 .Configure<IConfiguration>((settings, configuration) =>
