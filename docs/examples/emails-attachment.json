@@ -11,7 +11,7 @@
   ],
   "attachments": [
     {
-      "containerName": "default",
+      "containerName": "attachments",
       "fileName": "test.txt",
       "publicFileName": "friendly-name.txt"
     }

@@ -6,4 +6,4 @@
 
 ## Breaking changes
 
-- Milochau.Emails.Sdk now uses .NET 5.0 libraries
+- Change default attachments storage container (now named `attachments`)

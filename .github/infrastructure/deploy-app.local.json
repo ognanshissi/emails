@@ -8,49 +8,27 @@
     "applicationName": {
       "value": "emails"
     },
-    "environmentName": {
-      "value": "Development"
-    },
     "hostName": {
       "value": "local"
     },
-    "monitoring": {
-      "value": {
-        "enableApplicationInsights": false
-      }
+    "serviceBusQueues": {
+      "value": [
+        "emails"
+      ]
     },
-    "configuration": {
-      "value": {
-        "enableAppConfiguration": false
-      }
-    },
-    "secrets": {
-      "value": {
-        "enableKeyVault": false
-      }
-    },
-    "messaging": {
-      "value": {
-        "enableServiceBus": true,
-        "serviceBusQueues": [
-          "emails"
-        ]
-      }
-    },
-    "storage": {
-      "value": {
-        "enableStorage": true,
-        "storageAccounts": [
-          {
-            "number": "1",
-            "containers": [
-              "default"
-            ],
-            "readOnly": true,
-            "daysBeforeDeletion": 30
-          }
-        ]
-      }
+    "storageAccounts": {
+      "value": [
+        {
+          "number": "1",
+          "comment": "attachments",
+          "containers": [
+            "attachments"
+          ],
+          "readOnly": true,
+          "daysBeforeDeletion": 30,
+          "allowBlobPublicAccess": false
+        }
+      ]
     }
   }
 }

@@ -16,7 +16,7 @@ namespace Milochau.Emails.Sdk
     public static class ServiceCollectionExtensions
     {
         private const string serviceBusQueueNameEmails = "emails";
-        private const string azureStorageContainerName = "default";
+        private const string azureStorageContainerName = "attachments";
 
         /// <summary>Register emails clients, to be accessed from dependency injection</summary>
         /// <param name="services">Service collection</param>

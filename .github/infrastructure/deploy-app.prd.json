@@ -8,55 +8,33 @@
     "applicationName": {
       "value": "emails"
     },
-    "environmentName": {
-      "value": "Production"
-    },
     "hostName": {
       "value": "prd"
     },
-    "monitoring": {
-      "value": {
-        "enableApplicationInsights": true,
-        "disableLocalAuth": false,
-        "dailyCap": "0.1",
-        "workspaceName": "mil-monitoring-prd-ws",
-        "workspaceResourceGroup": "mil-monitoring-prd-rg"
-      }
+    "pricingPlan": {
+      "value": "Free"
     },
-    "configuration": {
-      "value": {
-        "enableAppConfiguration": true,
-        "appConfigurationName": "milochau",
-        "appConfigurationResourceGroup": "mil-rg-shd"
-      }
+    "applicationType": {
+      "value": "isolatedDotnet5"
     },
-    "secrets": {
-      "value": {
-        "enableKeyVault": true
-      }
+    "serviceBusQueues": {
+      "value": [
+        "emails"
+      ]
     },
-    "messaging": {
-      "value": {
-        "enableServiceBus": true,
-        "serviceBusQueues": [
-          "emails"
-        ]
-      }
-    },
-    "storage": {
-      "value": {
-        "enableStorage": true,
-        "storageAccounts": [
-          {
-            "number": "1",
-            "containers": [
-              "default"
-            ],
-            "readOnly": true,
-            "daysBeforeDeletion": 30
-          }
-        ]
-      }
+    "storageAccounts": {
+      "value": [
+        {
+          "number": "1",
+          "comment": "attachments",
+          "containers": [
+            "attachments"
+          ],
+          "readOnly": true,
+          "daysBeforeDeletion": 30,
+          "allowBlobPublicAccess": false
+        }
+      ]
     }
   }
 }
