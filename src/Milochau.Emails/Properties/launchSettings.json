@@ -8,7 +8,7 @@
         "AZURE_FUNCTIONS_HOST": "local",
         "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
         "AZURE_FUNCTIONS_KEYVAULT_VAULT": "https://mil-emails-dev-kv.vault.azure.net/",
-        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
+        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://mil-config-shd-cfg.azconfig.io"
       }
     },
     "Development": {
@@ -19,7 +19,7 @@
         "AZURE_FUNCTIONS_HOST": "local",
         "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
         "AZURE_FUNCTIONS_KEYVAULT_VAULT": "https://mil-emails-dev-kv.vault.azure.net/",
-        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
+        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://mil-config-shd-cfg.azconfig.io"
       }
     },
     "Production": {
@@ -30,7 +30,7 @@
         "AZURE_FUNCTIONS_HOST": "local",
         "AZURE_FUNCTIONS_ENVIRONMENT": "Production",
         "AZURE_FUNCTIONS_KEYVAULT_VAULT": "https://mil-emails-prd-kv.vault.azure.net/",
-        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://milochau.azconfig.io"
+        "AZURE_FUNCTIONS_APPCONFIG_ENDPOINT": "https://mil-config-shd-cfg.azconfig.io"
       }
     }
   }
