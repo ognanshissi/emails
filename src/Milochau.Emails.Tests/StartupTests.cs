@@ -2,7 +2,6 @@
 using Milochau.Emails.Models.Options;
 using Milochau.Emails.Services;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -11,8 +10,6 @@ using Moq;
 using SendGrid;
 using System.Collections.Generic;
 using System.Text.Encodings.Web;
-using Microsoft.FeatureManagement;
-using Milochau.Core.Functions;
 
 namespace Milochau.Emails.Tests
 {

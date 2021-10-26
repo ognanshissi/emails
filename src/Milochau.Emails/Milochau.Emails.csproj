@@ -8,10 +8,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" Version="5.0.0-beta.4" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.0.4" OutputItemType="Analyzer" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.2.0" OutputItemType="Analyzer" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="5.0.1" />
-    <PackageReference Include="Milochau.Core.Functions" Version="10.0.0" />
-    <PackageReference Include="Sendgrid" Version="9.24.2" />
+    <PackageReference Include="Milochau.Core.Functions" Version="10.0.1" />
+    <PackageReference Include="Sendgrid" Version="9.24.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Milochau.Emails.Sdk\Milochau.Emails.Sdk.csproj" />
