@@ -8,10 +8,10 @@ concurrency: deploy_app_dev
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
   PROJECTS_PUBLISH: './src/Milochau.Emails'
-  INFRA_DEPLOY_TEMPLATE_PATH: '**/functions/template.bicep'
-  INFRA_DEPLOY_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.dev.json'
-  INFRA_REGISTER_TEMPLATE_PATH: '**/functions/api-registration.bicep'
-  INFRA_REGISTER_PARAMETERS_PATH: '**/.github/infrastructure/register-app.dev.json'
+  INFRA_DEPLOY_TEMPLATE_PATH: './templates/functions/template.bicep'
+  INFRA_DEPLOY_PARAMETERS_PATH: './application/.github/infrastructure/deploy-app.dev.json'
+  INFRA_REGISTER_TEMPLATE_PATH: './templates/functions/api-registration.bicep'
+  INFRA_REGISTER_PARAMETERS_PATH: './application/.github/infrastructure/register-app.dev.json'
   INFRA_RG_NAME: 'mil-emails-dev-rg'
   INFRA_RG_LOCATION: 'westeurope'
   INFRA_APP_NAME: 'mil-emails-dev-fn'
@@ -19,7 +19,7 @@ env:
   DOTNET_VERSION: 5.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  TEMPLATES_VERSION: v5
+  TEMPLATES_VERSION: v6
 
 jobs:
   deploy_infra:
@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2 # For parameters file
         with:
-          path: emails
+          path: application
       - name: Deploy infrastructure
         uses: amilochau/github-actions/deploy/infrastructure@v1
         with:

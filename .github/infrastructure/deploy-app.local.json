@@ -19,7 +19,7 @@
     "storageAccounts": {
       "value": [
         {
-          "number": "1",
+          "suffix": "1",
           "comment": "attachments",
           "containers": [
             "attachments"

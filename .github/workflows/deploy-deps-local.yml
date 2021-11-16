@@ -6,11 +6,11 @@ on:
 concurrency: deploy_deps_loc
 
 env:
-  INFRA_TEMPLATE_PATH: '**/functions/local-dependencies.bicep'
-  INFRA_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.local.json'
+  INFRA_TEMPLATE_PATH: './templates/functions/local-dependencies.bicep'
+  INFRA_PARAMETERS_PATH: './application/.github/infrastructure/deploy-app.local.json'
   INFRA_RG_NAME: 'mil-emails-local-rg'
   INFRA_RG_LOCATION: 'westeurope'
-  TEMPLATES_VERSION: v5
+  TEMPLATES_VERSION: v6
 
 jobs:
   deploy_infra:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2 # For parameters file
         with:
-          path: emails
+          path: application
       - name: Deploy infrastructure
         uses: amilochau/github-actions/deploy/infrastructure@v1
         with:
