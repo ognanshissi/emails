@@ -6,4 +6,4 @@
 
 ## Breaking changes
 
-- Change default attachments storage container (now named `attachments`)
+- Remove `ContainerName` property from the `EmailAttachment` class (is not used anymore)

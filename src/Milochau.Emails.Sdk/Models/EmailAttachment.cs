@@ -3,9 +3,6 @@
     /// <summary>Email attachment</summary>
     public class EmailAttachment
     {
-        /// <summary>Container name</summary>
-        public string ContainerName { get; set; }
-
         /// <summary>File name</summary>
         /// <remarks>This must be the exact file name, as you can find in the storage</remarks>
         public string FileName { get; set; }
