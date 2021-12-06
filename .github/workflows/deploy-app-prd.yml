@@ -25,6 +25,7 @@ jobs:
   deploy_infra:
     name: Deploy infrastructure
     runs-on: ubuntu-latest
+    environment: PRD
     steps:
       - uses: actions/checkout@v2 # For parameters file
         with:
