@@ -36,3 +36,4 @@ jobs:
           versionFile: ${{ env.VERSION_FILE }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           nugetOrgToken: ${{ secrets.NUGETORG_TOKEN }}
+          generateReleaseNotes: true

@@ -10,16 +10,11 @@
 
 `emails` let client applications send e-mails, thanks to Azure Service Bus and SendGrid.
 
-## Getting Started
+## What's new
 
-1. Installation process
-From your local computer, clone the repository.
+You can find the new releases on the [GitHub releases page](https://github.com/amilochau/emails/releases).
 
-- dotnet restore
-- dotnet run
-
-2. Integration process
-Please follow the development good practices, then follow the integration process.
+---
 
 ## Configuration needed
 
