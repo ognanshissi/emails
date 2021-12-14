@@ -19,7 +19,7 @@ env:
   DOTNET_VERSION: 5.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  TEMPLATES_VERSION: amilochau/fix-storage-policies
+  TEMPLATES_VERSION: v6
 
 jobs:
   deploy_infra:
