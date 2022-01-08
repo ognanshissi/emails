@@ -22,8 +22,8 @@ namespace Milochau.Emails.Sdk.DataAccess
         /// <summary>Write an attachment into a stream</summary>
         /// <param name="attachment">Attachment content</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The document URI</returns>
-        public async Task<Uri> WriteFromStreamAsync(EmailAttachmentContent attachment, CancellationToken cancellationToken)
+        /// <returns>Document storage information</returns>
+        public async Task<EmailAttachmentContentResult> WriteFromStreamAsync(EmailAttachmentContent attachment, CancellationToken cancellationToken)
         {
             var fileName = Guid.NewGuid().ToString();
             var blobClient = blobContainerClient.GetBlobClient(fileName);
@@ -31,7 +31,11 @@ namespace Milochau.Emails.Sdk.DataAccess
             await blobClient.UploadAsync(attachment.Content, overwrite: false, cancellationToken).ConfigureAwait(false);
             logger.LogDebug("Uploaded an attachment into the Emails Storage Account");
 
-            return blobClient.Uri;
+            return new EmailAttachmentContentResult
+            {
+                FileName = fileName,
+                Uri = blobClient.Uri
+            };
         }
     }
 }

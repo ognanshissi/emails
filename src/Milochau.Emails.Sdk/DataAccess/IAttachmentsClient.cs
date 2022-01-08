@@ -11,7 +11,7 @@ namespace Milochau.Emails.Sdk.DataAccess
         /// <summary>Write an attachment into a stream</summary>
         /// <param name="attachment">Attachment content</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The document URI</returns>
-        Task<Uri> WriteFromStreamAsync(EmailAttachmentContent attachment, CancellationToken cancellationToken);
+        /// <returns>Document storage information</returns>
+        Task<EmailAttachmentContentResult> WriteFromStreamAsync(EmailAttachmentContent attachment, CancellationToken cancellationToken);
     }
 }
