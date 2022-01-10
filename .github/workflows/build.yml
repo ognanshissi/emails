@@ -15,7 +15,7 @@ on:
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.sln'
   PROJECTS_TESTS: './src/Milochau.Emails.sln'
-  DOTNET_VERSION: 5.0.x
+  DOTNET_VERSION: 6.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
@@ -29,10 +29,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x' # See https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-core-31-dependency
       - name: Build and test projects
         uses: amilochau/github-actions/build/netcore@v1
         with:

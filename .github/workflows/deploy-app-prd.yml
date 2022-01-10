@@ -16,7 +16,7 @@ env:
   INFRA_RG_LOCATION: 'westeurope'
   INFRA_APP_NAME: 'mil-emails-prd-fn'
   INFRA_HEALTH: 'https://mil-emails-prd-fn.azurewebsites.net/api/health/light'
-  DOTNET_VERSION: 5.0.x
+  DOTNET_VERSION: 6.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   TEMPLATES_VERSION: v6
@@ -50,10 +50,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x' # See https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-core-31-dependency
       - name: Deploy Azure Functions application
         uses: amilochau/github-actions/deploy/functions@v1
         with:
