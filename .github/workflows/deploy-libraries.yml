@@ -21,19 +21,13 @@ jobs:
     environment: PKG
     steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-          source-url: ${{ env.NUGET_URL }}
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy libraries
-        uses: amilochau/github-actions/release/nuget@v1
+        uses: amilochau/github-actions/release/nuget@v2
         with:
+          dotnetVersion: ${{ env.DOTNET_VERSION }}
           projectsToBuild: ${{ env.PROJECTS_BUILD }}
           projectsToPublish: ${{ env.PROJECTS_LIBRARIES }}
           versionFile: ${{ env.VERSION_FILE }}
+          githubPackagesUrl: ${{ env.NUGET_URL }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           nugetOrgToken: ${{ secrets.NUGETORG_TOKEN }}
-          generateReleaseNotes: true

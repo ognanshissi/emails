@@ -6,11 +6,11 @@ on:
 concurrency: deploy_deps_loc
 
 env:
-  INFRA_TEMPLATE_PATH: './templates/functions/local-dependencies.bicep'
+  INFRA_TYPE: 'functions/local-dependencies'
   INFRA_PARAMETERS_PATH: './application/.github/infrastructure/deploy-app.local.json'
   INFRA_RG_NAME: 'mil-emails-local-rg'
   INFRA_RG_LOCATION: 'westeurope'
-  TEMPLATES_VERSION: v6
+  TEMPLATES_VERSION: v7
 
 jobs:
   deploy_infra:
@@ -22,11 +22,11 @@ jobs:
         with:
           path: application
       - name: Deploy infrastructure
-        uses: amilochau/github-actions/deploy/infrastructure@v1
+        uses: amilochau/github-actions/deploy/infrastructure@v2
         with:
           azureTemplateVersion: ${{ env.TEMPLATES_VERSION }}
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
           resourceGroupName: ${{ env.INFRA_RG_NAME }}
-          resourceGroupLocation: ${{ env.INFRA_RG_LOCATION }}
-          templateFilePath: ${{ env.INFRA_TEMPLATE_PATH }}
+          scopeLocation: ${{ env.INFRA_RG_LOCATION }}
+          templateType: ${{ env.INFRA_TYPE }}
           parametersFilePath: ${{ env.INFRA_PARAMETERS_PATH }}

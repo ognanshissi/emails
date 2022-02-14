@@ -6,7 +6,6 @@ on:
 concurrency: deploy_app_dev
 
 env:
-  PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
   PROJECTS_PUBLISH: './src/Milochau.Emails'
   INFRA_DEPLOY_TEMPLATE_PATH: './templates/functions/template.bicep'
   INFRA_DEPLOY_PARAMETERS_PATH: './application/.github/infrastructure/deploy-app.dev.json'
@@ -15,11 +14,10 @@ env:
   INFRA_RG_NAME: 'mil-emails-dev-rg'
   INFRA_RG_LOCATION: 'westeurope'
   INFRA_APP_NAME: 'mil-emails-dev-fn'
-  INFRA_HEALTH: 'https://mil-emails-dev-fn.azurewebsites.net/api/health/light'
   DOTNET_VERSION: 6.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  TEMPLATES_VERSION: v6
+  TEMPLATES_VERSION: v7
 
 jobs:
   deploy_infra:
@@ -31,13 +29,13 @@ jobs:
         with:
           path: application
       - name: Deploy infrastructure
-        uses: amilochau/github-actions/deploy/infrastructure@v1
+        uses: amilochau/github-actions/deploy/infrastructure@v2
         with:
           azureTemplateVersion: ${{ env.TEMPLATES_VERSION }}
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
           resourceGroupName: ${{ env.INFRA_RG_NAME }}
-          resourceGroupLocation: ${{ env.INFRA_RG_LOCATION }}
-          templateFilePath: ${{ env.INFRA_DEPLOY_TEMPLATE_PATH }}
+          scopeLocation: ${{ env.INFRA_RG_LOCATION }}
+          templateType: ${{ env.INFRA_DEPLOY_TYPE }}
           parametersFilePath: ${{ env.INFRA_DEPLOY_PARAMETERS_PATH }}
 
   deploy_app:
@@ -46,15 +44,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Deploy Azure Functions application
-        uses: amilochau/github-actions/deploy/functions@v1
+        uses: amilochau/github-actions/deploy/functions@v2
         with:
-          projectsToBuild: ${{ env.PROJECTS_BUILD }}
+          dotnetVersion: ${{ env.DOTNET_VERSION }}
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
           applicationName: ${{ env.INFRA_APP_NAME }}
           projectsToPublishPath: ${{ env.PROJECTS_PUBLISH }}
-          healthUrl: ${{ env.INFRA_HEALTH }}
