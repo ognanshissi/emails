@@ -3,6 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "AzureWebJobsServiceBus__fullyQualifiedNamespace": "mil-emails-local-sbn.servicebus.windows.net",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "AZURE_TENANT_ID": "52afa7a3-ec90-4b81-b532-bcc8290aedd3"
   }
 }

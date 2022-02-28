@@ -13,5 +13,15 @@
       "Host.Aggregator": "Information",
       "Host.Results": "Information"
     }
+  },
+  "extensions": {
+    "serviceBus": {
+      "clientRetryOptions": {
+        "mode": "exponential",
+        "maxRetries": 10,
+        "delay": "00:05:00",
+        "maxDelay": "12:00:00"
+      }
+    }
   }
 }
